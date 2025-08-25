@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canadian Bowler Open Flipbook</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+    #controls {
+      margin-top: 10px;
+    }
+    button {
+      padding: 8px 12px;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Canadian Bowler Open Flipbook</h1>
+  <canvas id="pdf-canvas"></canvas>
+  <div id="controls">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num">1</span> / <span id="page-count">?</span></span>
+    <button onclick="nextPage()">Next</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    const url = '2025_Canadian_Bowler_Open_Program_08-23.pdf';
+
+    let pdfDoc = null,
+        pageNum = 1,
+        canvas = document.getElementById('pdf-canvas'),
+        ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(function(page) {
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        page.render({ canvasContext: ctx, viewport: viewport });
+        document.getElementById('page-num').textContent = num;
+      });
+    }
+
+    function next
